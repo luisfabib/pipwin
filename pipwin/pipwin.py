@@ -293,12 +293,16 @@ class PipwinCache(object):
     def download(self, requirement, dest=None):
         return self._download(requirement, dest)
 
-    def install(self, requirement):
+    def install(self, requirement, user=False):
         """
         Install a package
         """
         wheel_file = self.download(requirement)
-        subprocess.check_call([executable, "-m", "pip", "install", wheel_file])
+        pipinstall = [executable, "-m", "pip", "install"]
+        if user:
+            pipinstall += ["--user"]
+        subprocess.check_call(pipinstall+[wheel_file])
+
         os.remove(wheel_file)
 
     def uninstall(self, requirement):
