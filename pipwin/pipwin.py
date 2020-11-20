@@ -251,10 +251,13 @@ class PipwinCache(object):
         found = [pack for pack in self.sys_data.keys() if requirement.name in pack]
         return [False, found]
 
-    def _get_url(self, requirement):
+    def _get_url(self, requirement,filt=None):
         versions = list(
             requirement.specifier.filter(self.sys_data[requirement.name].keys())
         )
+        # filter by user-requested string
+        if filt is not None: 
+            versions = [version for version in versions if filt in version]
         if not versions:
             raise ValueError("Could not satisfy requirement %s" % (str(requirement)))
         return self.sys_data[requirement.name][max(versions)]
@@ -266,8 +269,8 @@ class PipwinCache(object):
             os.makedirs(pipwin_dir)
         return pipwin_dir
 
-    def _download(self, requirement, dest):
-        url = self._get_url(requirement)
+    def _download(self, requirement, dest, filt):
+        url = self._get_url(requirement,filt)
         wheel_name = url.split("/")[-1]
         print("Downloading package . . .")
         print(url)
@@ -290,14 +293,14 @@ class PipwinCache(object):
         obj.start()
         return wheel_file
 
-    def download(self, requirement, dest=None):
-        return self._download(requirement, dest)
+    def download(self, requirement, dest=None, filt=None):
+        return self._download(requirement, dest, filt)
 
-    def install(self, requirement, user=False):
+    def install(self, requirement, user=False, filt=None):
         """
         Install a package
         """
-        wheel_file = self.download(requirement)
+        wheel_file = self.download(requirement, filt=filt)
         pipinstall = [executable, "-m", "pip", "install"]
         if user:
             pipinstall += ["--user"]

@@ -3,7 +3,7 @@
 Gohlke
 
 Usage:
-  pipwin install (<package> | [-r=<file> | --file=<file>])  [ --user ]
+  pipwin install (<package> | [-r=<file> | --file=<file>])  [ --user ] [--filter=<filter>]
   pipwin uninstall <package>
   pipwin download (<package> | [-r=<file> | --file=<file>]) [-d=<dest> | --dest=<dest>]
   pipwin search <package>
@@ -96,7 +96,7 @@ def main():
         print("Package `{}` found in cache".format(package))
         # Handle install/uninstall/download
         if args["install"]:
-            cache.install(package, user=args["--user"])
+            cache.install(package, user=args["--user"], filt=args["--filter"])
         elif args["uninstall"]:
             cache.uninstall(package)
         elif args["download"]:
