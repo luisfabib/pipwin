@@ -3,7 +3,7 @@
 Gohlke
 
 Usage:
-  pipwin install (<package> | [-r=<file> | --file=<file>] | [ -u | -- user] )
+  pipwin install (<package> | [-r=<file> | --file=<file>])  [ --user ]
   pipwin uninstall <package>
   pipwin download (<package> | [-r=<file> | --file=<file>]) [-d=<dest> | --dest=<dest>]
   pipwin search <package>
@@ -15,7 +15,7 @@ Usage:
 Options:
   -h --help                Show this screen.
   -v --version             Show version.
-  -u --user                Install to the Python user install directory for your platform.
+  --user                   Install to the Python user install directory for your platform.
   -r=<file> --file=<file>  File with list of package names.
   -d=<dest> --dest=<dest>  Download packages into <dest>.
 """
